@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h2>Random User</h2>
+<button onclick="loadUser()">Load User</button>
+<div id="loaddata">
+    <h2>Name: <span id="name"></span></h2>
+    <h3>Gender: <span id="gender"></span></h3>
+
+</div>
+
+    <script>
+        const loadUser = () =>{
+            fetch('https://randomuser.me/api/?gender=female')
+            .then(res => res.json())
+            .then(data => displayUser(data))
+        }
+
+        const displayUser = user =>{
+            console.log(user)
+            const loadData = document.getElementById('loaddata');
+            const loadDataDiv = document.createElement('div');
+            const name = document.getElementById('name').innerHTML = user.results[0].name.first +" "+ user.results[0].name.last;
+            const gender = document.getElementById('gender').innerHTML = user.results[0].gender;
+            // loadData.innerHTML = `
+            // <h2>Name:  ${user.results[0].name.first} </h2>
+            // <h3>Gender: ${user.results[0].gender}</h3>
+            
+            // `
+
+        } 
+
+        
+    </script>
+</body>
+</html>

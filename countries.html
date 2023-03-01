@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #showcountry{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .country{
+            border: 1px solid tomato;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <button onclick="loadCountries()">Load Countries</button> -->
+    <h1>All country show</h1>
+    <section id="country-details">
+
+    </section>
+    <div id="showcountry">
+
+    </div>
+
+    <script>
+        const loadCountries = () =>{
+            fetch('https://restcountries.com/v3.1/all')
+            .then(res => res.json())
+            .then(data => displayCountries(data))
+        }
+        const displayCountries = country =>{
+            //console.log(country);
+            //use for loop 
+            // for(const countries of country){
+            //     console.log(countries);
+            // }
+            //use foreach loop this show the same result
+            const sectionDiv = document.getElementById('showcountry');
+            country.forEach(countries => {
+                //console.log(countries.cca2);
+               
+                const countryDiv = document.createElement('div');
+                 countryDiv.classList.add('country');
+                 countryDiv.innerHTML = `
+                 <h2>Name: ${countries.name.common}</h2>
+                 <p>Capital: ${countries.capital ? countries.capital[0] : "No Capital"}</p>
+                 <button onclick="loadCountryDetails('${countries.cca2}')">Details</button>
+                 `
+                 sectionDiv.appendChild(countryDiv);
+            });
+        }
+
+        const loadCountryDetails = code =>{
+            const url = `https://restcountries.com/v3.1/alpha/${code}`
+            fetch(url)
+            .then(res => res.json())
+            .then(data => showCountryDetails(data[0]))
+        }
+
+        const showCountryDetails = country =>{
+            console.log(country)
+            const detailContainer = document.getElementById('country-details');
+            detailContainer.innerHTML = `
+            <h1>Name: ${country.name.common}</h1>
+            <img src = "${country.flags.png}"/>
+            `
+        }
+
+        loadCountries();
+    </script>
+</body>
+</html>
+
